@@ -1,0 +1,26 @@
+TCF - Projeto Marmoraria
+
+.Ferramentas:
+	React, 
+
+.Linguagens:
+	TypeScript.
+
+.Banco de dados:
+	SQLite.
+
+.Deploy:
+	Vercel.
+
+.Objetivos:
+
+	.1 Cadatros de clientes.
+	.2 Lançamentos de pedidos.
+	.3 Status dos pedidos (Ja foi entregue ou nao, Ja foi pago ou nao).
+	.4 Cadastro de produtos.
+	.5 Calculo do valor da venda (pedido + mao de obra, desconto na forma de pagamento)
+	
+	- um deles tem que envolver um calculo matematico
+	- baseado em uma empresa (Caso de Uso)
+
+.Minimo de 3 paginas com pagina de login.
