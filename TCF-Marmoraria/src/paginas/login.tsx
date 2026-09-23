@@ -1,5 +1,5 @@
 import { useState } from "react";
-// import { useAsyncError, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { salvarCookie, getDataHoje, gerarToken } from "../auth.js";
 
 
@@ -8,7 +8,7 @@ export default function Login() {
     const [senha, setSenha] = useState("");
     const [mensagem, setMensagem] = useState("");
 
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
     async function entrar(event: React.FormEvent) { // variavel do evento que envia o submit do formulario e tipagem do evento de formulario
         // alert (`Usuario=${nome}
@@ -34,7 +34,7 @@ export default function Login() {
 
 
         // Login provisório, sem autenticação real.
-        // navigate("/dashboard");
+        navigate("/dashboard");
     }
 
     return (
