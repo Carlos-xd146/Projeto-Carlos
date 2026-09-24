@@ -20,10 +20,20 @@ export default function Login() {
         const usuarioEncontrado = bancoDeDados.find((user) => user.usuario===nome && user.senha === senha)
         if (usuarioEncontrado){
             const data = getDataHoje();
-            const token = await gerarToken(usuarioEncontrado.usuario+nome.Senha+data)
+            const token = await gerarToken(
+                usuarioEncontrado.usuario,
+                usuarioEncontrado.Senha,
+                data
+            );
             salvarCookie(token);
-            setMensagem("Logado!")
+            setMensagem("Logado!");
+
+            console.log("LOGIN CORRETO");
+
+            navigate("/dashboard");
         }else{
+
+            console.log("LOGIN INCORRETO");
             setMensagem("Usuario ou senha incorretos")
         }
         // Exibe um aviso se o nome ou a senha estao vazios
@@ -31,10 +41,7 @@ export default function Login() {
             alert("Preencha o nome e a senha.");
             return;
         }
-
-
-        // Login provisório, sem autenticação real.
-        navigate("/dashboard");
+        
     }
 
     return (

@@ -9,7 +9,7 @@ export default function dashboard() {
 
             <div className="dashboard-cards">
                 <CardDashboard
-                    titulo="total de clientes"
+                    titulo="Total de clientes"
                     valor={0}
                 />
                 <CardDashboard
