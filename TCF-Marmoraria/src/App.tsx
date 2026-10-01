@@ -3,13 +3,14 @@ import {
   BrowserRouter,
   Routes,
   Route,
-  Navigate,
 } from "react-router-dom";
 
 import Login from './paginas/login';
 import Dashboard from './paginas/Dashboard';
 // import Clientes from './paginas/Clientes';
 import Produtos from './paginas/Produtos';
+import Clientes from "./paginas/Clientes";
+import Pedidos from "./paginas/Pedidos";
 // import Pedidos from './paginas/Pedidos';
 // import Layout from './components/layout';
 
@@ -20,7 +21,8 @@ function App() {
         <Route path="" element={<Login />} />
 
         <Route
-          path="/login" element={<Login/>}
+          path="/login" 
+          element={<Login/>}
         
         />
         <Route
@@ -31,6 +33,16 @@ function App() {
         <Route
           path="/produtos"
           element={<Produtos />}
+        />
+
+        <Route
+          path="/clientes"
+          element={<Clientes />}
+        />
+
+        <Route
+          path="/pedidos"
+          element={<Pedidos />}
         />
       </Routes>
     </BrowserRouter>

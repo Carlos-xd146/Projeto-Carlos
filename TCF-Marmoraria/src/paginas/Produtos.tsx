@@ -25,7 +25,7 @@ export default function Produtos() {
 
     const valor = Number(preco); // converte texto(string) para numero(Number)
 
-    if (valor <= 0 || !Number.isFinite(valor)) { // verifica se o numero é menor ou igual a zero ou se o numero é valido e finito
+    if ( valor <= 0 ) { // verifica se o numero é menor ou igual a zero
         alert("Digite um preço válido");
         return;
     }

@@ -37,10 +37,10 @@ export default function Login() {
             setMensagem("Usuario ou senha incorretos")
         }
         // Exibe um aviso se o nome ou a senha estao vazios
-        if (!nome || !senha) {
-            alert("Preencha o nome e a senha.");
-            return;
-        }
+        // if (!nome || !senha) {
+        //     alert("Preencha o nome e a senha.");
+        //     return;
+        // }
         
     }
 
@@ -48,7 +48,7 @@ export default function Login() {
         <div className="login-container">
             <form className="login-card" onSubmit={entrar}>
                 <h1>Marmoaria</h1>
-                <p>Acesse o sitema</p>
+                <p>Acesse o sistema</p>
 
                 <label>Nome do usuário</label>
                 <input

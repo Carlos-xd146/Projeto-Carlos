@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 export default function dashboard() {
     return (
         <div className="pagina">
-            <h1>Dashboard</h1>
+            <h1>Marmoraria</h1>
             <p>Bem vindo</p>
 
             <div className="dashboard-cards">
@@ -33,6 +33,12 @@ export default function dashboard() {
                     valor={"R$ 0,00"}
                 />
                 <Link to ="/Produtos">Produtos
+                </Link>
+
+                <Link to ="/Clientes">Clientes
+                </Link>
+
+                <Link to ="/Pedidos">Pedidos
                 </Link>
 
             </div>

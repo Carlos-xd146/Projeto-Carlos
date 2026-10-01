@@ -35,3 +35,264 @@ body {
     font-weight: bold;
     color: #222;
 }
+
+
+/* ====================================================================================================================================================== */
+
+/* ========================================
+   CONFIGURAÇÕES GERAIS
+======================================== */
+
+.pagina {
+    width: 90%;
+    max-width: 1200px;
+    margin: 40px auto;
+    font-family: Arial, sans-serif;
+}
+
+.pagina h1 {
+    margin-bottom: 5px;
+}
+
+.pagina > p {
+    margin-top: 0;
+    color: #666;
+}
+
+
+/* ========================================
+   FORMULÁRIOS
+======================================== */
+
+.clientes-formulario,
+.produtos-formulario,
+.pedidos-formulario {
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 25px;
+}
+
+.clientes-formulario h2,
+.produtos-formulario h2,
+.pedidos-formulario h2 {
+    margin-top: 0;
+}
+
+
+/* ========================================
+   CAMPOS
+======================================== */
+
+.campo-cliente,
+.campo-produto,
+.campo-pedido {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.campo-cliente label,
+.campo-produto label,
+.campo-pedido label {
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+
+.campo-cliente input,
+.campo-produto input,
+.campo-produto select,
+.campo-pedido input,
+.campo-pedido select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+.campo-cliente input:focus,
+.campo-produto input:focus,
+.campo-produto select:focus,
+.campo-pedido input:focus,
+.campo-pedido select:focus {
+    outline: none;
+    border-color: #555;
+}
+
+
+/* ========================================
+   BOTÕES
+======================================== */
+
+.clientes-formulario button,
+.produtos-formulario button,
+.pedidos-formulario button {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 5px;
+    background: #333;
+    color: white;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.clientes-formulario button:hover,
+.produtos-formulario button:hover,
+.pedidos-formulario button:hover {
+    background: #555;
+}
+
+
+/* ========================================
+   LISTAS
+======================================== */
+
+.clientes-lista,
+.produtos-lista,
+.pedidos-lista {
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 25px;
+}
+
+.clientes-lista h2,
+.produtos-lista h2,
+.pedidos-lista h2 {
+    margin-top: 0;
+}
+
+
+/* ========================================
+   TABELAS
+======================================== */
+
+.tabela-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+th,
+td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background: #f5f5f5;
+    font-weight: bold;
+}
+
+tr:hover {
+    background: #fafafa;
+}
+
+
+/* ========================================
+   SELECT DA TABELA DE PEDIDOS
+======================================== */
+
+.pedidos-lista select {
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+
+/* ========================================
+   BOTÃO EXCLUIR
+======================================== */
+
+.botao-excluir {
+    background: #c0392b !important;
+}
+
+.botao-excluir:hover {
+    background: #e74c3c !important;
+}
+
+/* ===================================================================================================================================== */
+
+/* ========================================
+   LOGIN
+======================================== */
+
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f5f5f5;
+}
+
+.login-card {
+    width: 350px;
+    padding: 30px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+    display: flex;
+    flex-direction: column;
+}
+
+.login-card h1 {
+    margin: 0;
+    text-align: center;
+}
+
+.login-card > p {
+    text-align: center;
+    color: #666;
+    margin-bottom: 25px;
+}
+
+.login-card label {
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+
+.login-card input {
+    padding: 10px;
+    margin-bottom: 15px;
+
+    border: 1px solid #ccc;
+    border-radius: 5px;
+
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+.login-card input:focus {
+    outline: none;
+    border-color: #555;
+}
+
+.login-card button {
+    padding: 11px;
+    margin-top: 5px;
+
+    border: none;
+    border-radius: 5px;
+
+    background: #333;
+    color: white;
+
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.login-card button:hover {
+    background: #555;
+}
