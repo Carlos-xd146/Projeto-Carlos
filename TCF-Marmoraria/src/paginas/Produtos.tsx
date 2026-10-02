@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react"; // useState controla os dados e useEffect busca os produtos quando a página abre
 
 type Produto = {
     id: number;
@@ -14,7 +14,19 @@ export default function Produtos() {
     const [tipo, setTipo] = useState("");
     const [preco, setPreco] = useState("");
 
-    function cadastrarProduto(event: React.FormEvent) {
+    useEffect(() => {
+        carregarProdutos();   // Busca os produtos do banco quando a página é aberta
+    }, []);
+
+    async function carregarProdutos() {
+        const resposta = await fetch("http://localhost:3000/produtos"); // Faz uma requisição GET para o backend
+
+        const dados = await resposta.json() // Converte a resposta do servidor para JSON
+
+        setProdutos(dados); // Coloca os produtos recebidos dentro da lista
+    }
+
+    async function cadastrarProduto(event: React.FormEvent) {
         event.preventDefault(); //Impede o navegador de recarregar a página quando o formulário é enviado.
     
 
@@ -30,23 +42,47 @@ export default function Produtos() {
         return;
     }
 
-    const novoProduto: Produto = { // precisa seguir o formato Produto(id, nome, tipo e preço)
-        id: Date.now(), //pego o horario atual
-        nome: nome.trim(),
-        tipo,
-        preco: valor, //recebe o valor convertido
-    };
+    const resposta = await fetch("http://localhost:3000/produtos", {
+        method: "POST", //Informa que estamos cadastrando um produto
 
-    setProdutos((lista) => [...lista, novoProduto]); // Pegua todos os produtos antigos e coloque o novo produto no final.
-    // ... espalha os elementos da lista
+        headers: {
+            "Content-Type": "application/json",      // Informa que estamos enviando JSON
+        },
+
+        body: JSON.stringify({
+            nome: nome.trim(),
+            tipo,
+            preco: valor,
+        }), // Converte os dados do produto para JSON
+    });
+
+    if (!resposta.ok) {            // Verifica se o backend retornou algum erro
+        alert("Erro ao cadastrar produto");
+    }
+
+
     setNome("");
     setTipo("");
     setPreco("");
+
+    carregarProdutos();     // Busca novamente os produtos para atualizar a tabela
 }
 
-    function excluirProduto(id: number) {
-        setProdutos((lista) => lista.filter((produto) => produto.id !== id));
+
+    // EXCLUIR PRODUTO
+
+    async function excluirProduto(id: number) {
+    const resposta = await fetch(`http://localhost:3000/produtos/${id}`, {
+        method: "DELETE", // Informa que queremos excluir o produto
+    });
+
+    if (!resposta.ok) { // Verifica se o backend retornou algum erro
+        alert("Erro ao excluir produto.");
+        return;
     }
+
+    carregarProdutos(); // Busca novamente os produtos depois da exclusão
+}
 
     return (
         <div className="pagina">

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";        // useState controla os dados e useEffect executa ações quando a página carrega
 
 type Cliente = {
     id: number;
@@ -8,32 +8,70 @@ type Cliente = {
 
 export default function Clientes() {
 
-    const [clientes, setClientes] = useState<Cliente[]>([]);
+    const [clientes, setClientes] = useState<Cliente[]>([]);   // Guarda a lista de clientes
 
     const [nome, setNome] = useState("");
     const [telefone, setTelefone] = useState("");
 
+    useEffect(() => {
+        carregarClientes();     // Busca os clientes assim que a página é aberta
+    }, []);
 
-    function cadastrarCliente(event: React.FormEvent) {
+
+    async function carregarClientes() {
+        const resposta = await fetch("http://localhost:3000/clientes");   // Faz uma requisição GET para o backend
+
+        const dados = await resposta.json();                      // Converte a resposta do servidor para JSON
+
+        setClientes(dados);                            // Coloca os clientes recebidos dentro da lista
+    }
+
+
+    async function cadastrarClientes(event: React.FormEvent) {
         event.preventDefault();
 
-        if (!nome.trim() || !telefone.trim()) {
+        if (!nome.trim() || !telefone.trim()) {          // Verifica se nome e telefone foram preenchidos
             alert("Preencha o nome e o telefone.");
             return;
         }
 
-        const novoCliente: Cliente = {
-            id: Date.now(),
-            nome: nome.trim(),
-            telefone: telefone.trim(),
-        };
+        const resposta = await fetch("http://localhost:3000/clientes", {
+            method: "POST",  // Informa que estamos cadastrando um novo cliente
+            headers: {
+                "Content-Type": "application/json", // Informa que estamos enviando JSON
+            },
+            body: JSON.stringify({
+                nome: nome.trim(),
+                telefone: telefone.trim(),
+            }),  // Converte os dados do cliente para JSON
+        });
 
-        setClientes((lista) => [...lista, novoCliente]);
+        if (!resposta.ok) {   // Verifica se o backend retornou algum erro
+            alert("Erro ao cadastrar cliente");
+            return;
+        }
 
-        setNome("");
-        setTelefone("");
+        setNome("");      // Limpa o campo de nome
+        setTelefone("");  // Limpa o campo de telefone
 
+        carregarClientes(); //Busca novamente os clientes para atualizar a tabela
     }
+
+    async function excluirCliente(id: number) {
+        const resposta = await fetch(`http://localhost:3000/clientes/${id}`, {
+            method: "DELETE",  // Informa que queremos excluir um cliente
+        });
+
+        if (!resposta.ok) {  // Verifica se o backend retornou algum erro
+            alert("Erro ao excluir cliente.");
+            return;
+        }
+
+        carregarClientes(); // Busca novamente os clientes depois da exclusão
+        
+    }
+
+
 
     return (
         <div className="pagina">
@@ -43,7 +81,7 @@ export default function Clientes() {
             <section className="clientes-formulario">
                 <h2>Novo Cliente</h2>
 
-                <form onSubmit={cadastrarCliente}>
+                <form onSubmit={cadastrarClientes}>
 
                     <div className="campo-cliente">
                         <label>Nome</label>
@@ -82,6 +120,7 @@ export default function Clientes() {
                                 <tr>
                                     <th>Nome</th>
                                     <th>Telefone</th>
+                                    <th>Ações</th>
                                 </tr>
                             </thead>
 
@@ -90,10 +129,16 @@ export default function Clientes() {
                                     <tr key={cliente.id}>
                                         <td>{cliente.nome}</td>
                                         <td>{cliente.telefone}</td>
+
+                                        <td>
+                                            <button type="button" onClick={() => excluirCliente(cliente.id)}>Excluir</button>
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
+
+
                     </div>
                 )}
             </section>

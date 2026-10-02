@@ -2,8 +2,52 @@ body {
     background-color: rgb(196, 196, 196);
 }
 
+/* =================================================================================  Cabeçalho do Dashboard */
+.dashboard-topo {
+    display: flex; /* Coloca título e navegação lado a lado */
+    justify-content: space-between; /* Separa o título dos links */
+    align-items: center; /* Alinha os elementos verticalmente */
+    margin-bottom: 35px; /* Espaço antes dos cards */
+    padding-bottom: 20px; /* Espaço interno inferior */
+    border-bottom: 2px solid #000000; /* Linha separando o cabeçalho dos cards */
+}
 
-/* Grade dos cards */
+/* Título do Dashboard */
+.dashboard-titulo h1 {
+    margin: 0; /* Remove margem padrão */
+    font-size: 32px; /* Tamanho do título */
+}
+
+/* Texto abaixo do título */
+.dashboard-titulo p {
+    margin: 5px 0 0; /* Pequeno espaço acima */
+    color: #666; /* Cor mais discreta */
+    font-size: 15px; /* Tamanho do texto */
+}
+
+/* Navegação */
+.dashboard-links {
+    display: flex; /* Coloca os links lado a lado */
+    gap: 12px; /* Espaço entre os links */
+}
+
+/* Links */
+.dashboard-links a {
+    text-decoration: none; /* Remove sublinhado */
+    padding: 10px 18px; /* Espaçamento interno */
+    border-radius: 8px; /* Arredonda os cantos */
+    background-color: #333; /* Fundo */
+    color: white; /* Texto */
+    font-weight: 500; /* Texto levemente mais forte */
+    transition: 0.2s; /* Suaviza o efeito */
+}
+
+/* Quando passar o mouse */
+.dashboard-links a:hover {
+    background-color: #555; /* Clareia o botão */
+}
+
+/* ================================================================  Grade dos cards */
 
 .dashboard-cards {
     display: grid;
@@ -214,11 +258,19 @@ tr:hover {
 ======================================== */
 
 .botao-excluir {
-    background: #c0392b !important;
+    background: #dc3545 !important; /* Cor vermelha do botão */
+    color: white !important; /* Cor do texto */
+    border: none; /* Remove a borda padrão */
+    padding: 8px 14px; /* Espaçamento interno */
+    border-radius: 6px; /* Arredonda os cantos */
+    cursor: pointer; /* Mostra a mão ao passar o mouse */
+    font-size: 14px; /* Tamanho do texto */
+    font-weight: 500; /* Deixa o texto um pouco mais forte */
+    transition: 0.2s; /* Suaviza a mudança de cor */
 }
 
 .botao-excluir:hover {
-    background: #e74c3c !important;
+    background: #b02a37 !important; /* Vermelho mais escuro ao passar o mouse */
 }
 
 /* ===================================================================================================================================== */
