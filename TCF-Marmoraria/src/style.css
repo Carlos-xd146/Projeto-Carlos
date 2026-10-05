@@ -1,28 +1,42 @@
-body {
-    background-color: rgb(196, 196, 196);
+html,
+body,
+#root {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
 }
+
+* {
+    box-sizing: border-box;
+}
+
 
 /* =================================================================================  Cabeçalho do Dashboard */
 .dashboard-topo {
-    display: flex; /* Coloca título e navegação lado a lado */
-    justify-content: space-between; /* Separa o título dos links */
-    align-items: center; /* Alinha os elementos verticalmente */
-    margin-bottom: 35px; /* Espaço antes dos cards */
-    padding-bottom: 20px; /* Espaço interno inferior */
-    border-bottom: 2px solid #000000; /* Linha separando o cabeçalho dos cards */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 28px;
+    padding: 24px 28px 20px;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+
+    color: white;
 }
 
 /* Título do Dashboard */
 .dashboard-titulo h1 {
-    margin: 0; /* Remove margem padrão */
-    font-size: 32px; /* Tamanho do título */
+    margin: 0;
+    font-size: 32px;
+    color: white;
 }
 
-/* Texto abaixo do título */
 .dashboard-titulo p {
-    margin: 5px 0 0; /* Pequeno espaço acima */
-    color: #666; /* Cor mais discreta */
-    font-size: 15px; /* Tamanho do texto */
+    margin: 5px 0 0;
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 15px;
 }
 
 /* Navegação */
@@ -59,10 +73,10 @@ body {
 /* card individual */
 
 .dashboard-card {
-    background: white;
+    background: rgb(181, 252, 162);
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 00.8);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28);
 }
 
 /* titulo do card */
@@ -88,19 +102,33 @@ body {
 ======================================== */
 
 .pagina {
-    width: 90%;
-    max-width: 1200px;
-    margin: 40px auto;
+    width: 100%;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0 20px 40px;
     font-family: Arial, sans-serif;
+
+    background-image:
+        linear-gradient(
+            rgba(0, 0, 0, 0.34),
+            rgba(0, 0, 0, 0.34)
+        ),
+        url("../src/assets/fundoPaginas.png");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 .pagina h1 {
-    margin-bottom: 5px;
+    margin: 0 0 5px;
+    color: white;
 }
 
 .pagina > p {
     margin-top: 0;
-    color: #666;
+    color: rgba(255, 255, 255, 0.82);
 }
 
 
@@ -111,8 +139,8 @@ body {
 .clientes-formulario,
 .produtos-formulario,
 .pedidos-formulario {
-    background: #ffffff;
-    border: 1px solid #ddd;
+    background: #c9ff99;
+    border: none;
     border-radius: 8px;
     padding: 20px;
     margin-top: 25px;
@@ -196,8 +224,8 @@ body {
 .clientes-lista,
 .produtos-lista,
 .pedidos-lista {
-    background: #ffffff;
-    border: 1px solid #ddd;
+    background: #a5effe;
+    border: none;
     border-radius: 8px;
     padding: 20px;
     margin-top: 25px;
@@ -229,16 +257,16 @@ th,
 td {
     padding: 12px;
     text-align: left;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #858585;
 }
 
 th {
-    background: #f5f5f5;
+    background: #5dd4ff;
     font-weight: bold;
 }
 
 tr:hover {
-    background: #fafafa;
+    background: #6bd7ff;
 }
 
 
@@ -279,12 +307,21 @@ tr:hover {
    LOGIN
 ======================================== */
 
+
+
 .login-container {
     min-height: 100vh;
+    width: 100%;
+
+    background-image: url("../src/assets/loginFundo.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #f5f5f5;
+    
 }
 
 .login-card {
@@ -293,7 +330,7 @@ tr:hover {
     background: white;
     border: 1px solid #ddd;
     border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 25px white;
 
     display: flex;
     flex-direction: column;
@@ -347,4 +384,112 @@ tr:hover {
 
 .login-card button:hover {
     background: #555;
+}
+
+/* ================================
+   STATUS DOS PEDIDOS
+   ================================ */
+
+/* SIM = verde */
+.status-sim {
+    background: greenyellow;
+    color: black;
+    border: none;
+}
+
+/* NÃO = vermelho */
+.status-nao {
+    background: rgb(255, 162, 162);
+    color: black;
+    border: none;
+}
+
+/* EM ANDAMENTO = amarelo */
+.status-andamento {
+    background: yellow;
+    color: black;
+    border: none;
+}
+
+/* CONCLUÍDO = verde */
+.status-concluido {
+    background: rgb(0, 165, 0);
+    color: black;
+    border: none;
+}
+
+
+/* Botao formulario */
+
+.titulo-formulario {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.titulo-formulario h2 {
+    margin: 0;
+}
+
+.botao-toggle-formulario {
+    background: #333;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.botao-toggle-formulario:hover {
+    background: #555;
+}
+
+/* ========================================
+   PEDIDOS PENDENTES
+   ======================================== */
+
+.pedidos-pendentes {
+    margin-top: 30px;
+    padding-bottom: 10px;
+}
+
+.pedidos-pendentes h2 {
+    margin-bottom: 20px;
+    color: white;
+}
+
+/* Lista dos pedidos */
+.lista-pedidos-pendentes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+/* Card individual */
+.pedido-pendente {
+    background: rgb(255, 253, 147);
+    border: none;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* Número do pedido */
+.pedido-pendente h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 20px;
+}
+
+/* Informações do pedido */
+.pedido-pendente p {
+    margin: 8px 0;
+    font-size: 16px;
+}
+
+/* Deixa os títulos das informações destacados */
+.pedido-pendente strong {
+    font-weight: 600;
 }

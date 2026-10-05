@@ -47,7 +47,7 @@ export default function Login() {
     return (
         <div className="login-container">
             <form className="login-card" onSubmit={entrar}>
-                <h1>Marmoaria</h1>
+                <h1>Marmoraria</h1>
                 <p>Acesse o sistema</p>
 
                 <label>Nome do usuário</label>

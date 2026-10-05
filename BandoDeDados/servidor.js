@@ -41,11 +41,11 @@ app.post("/clientes", (req, res) => {          // Cria uma rota POST para cadast
     `)                 // Prepara o comando SQL para inserir o cliente
 
     const resultado = comando.run(nome, telefone);        // Executa o INSERT usando os dados recebidos
-    
+
     res.json({
         mensagem: "Cliente cadastrado com sucesso!",        // Envia uma resposta para quem fez a requisição
         id: resultado.lastInsertRowid
-    }); 
+    });
 })
 
 
@@ -64,7 +64,7 @@ app.get("/clientes", (req, res) => { // Cria uma rota GET para consultar os clie
 // EXCLUIR CLIENTE
 
 app.delete("/clientes/:id", (req, res) => {        // Cria uma rota DELETE para excluir um cliente
-    
+
     const id = Number(req.params.id);       // Pega o ID enviado pela URL e converte para número
 
     const comando = db.prepare(`
@@ -178,9 +178,191 @@ app.delete("/produtos/:id", (req, res) => { // Cria uma rota DELETE para excluir
     }); // Informa que a exclusão foi realizada
 });
 
+// ==========================================================================================================================================
+// ==========================================================================================================================================
+
+// TABELA DE PEDIDOS
+
+db.prepare(`
+
+    CREATE TABLE IF NOT EXISTS pedidos (
+        id INTEGER PRIMARY KEY AUTOINCREMENT, 
+        cliente_id INTEGER NOT NULL,
+        produto_id INTEGER NOT NULL,
+        quantidade REAL NOT NULL,
+        mao_de_obra REAL NOT NULL,
+        desconto REAL DEFAULT 0,
+        forma_pagamento TEXT NOT NULL,
+        data_entrega TEXT,
+        data_pagamento TEXT,
+        status TEXT NOT NULL DEFAULT 'Em produção',
+        entregue INTEGER NOT NULL DEFAULT 0,
+        pago INTEGER NOT NULL DEFAULT 0, 
+        FOREIGN KEY (cliente_id) REFERENCES clientes(id),
+        FOREIGN KEY (produto_id) REFERENCES produtos(id)
+        )
+    `).run(); // Cria a tabela no SQLite caso ela ainda não exista
+
+app.get("/pedidos", (req, res) => {
+    const pedidos = db.prepare(`
+        SELECT
+            pedidos.id,
+            pedidos.cliente_id,
+            clientes.nome AS cliente,
+            pedidos.produto_id,
+            produtos.nome AS produto,
+            produtos.preco AS preco_produto,
+            pedidos.quantidade,
+            pedidos.mao_de_obra,
+            pedidos.desconto,
+            ((produtos.preco * pedidos.quantidade) + pedidos.mao_de_obra - pedidos.desconto) AS valor_total,
+            pedidos.forma_pagamento,
+            pedidos.data_entrega,
+            pedidos.data_pagamento,
+            pedidos.status,
+            pedidos.entregue,
+            pedidos.pago
+        
+        
+            
+        FROM pedidos
+
+        INNER JOIN clientes
+            ON pedidos.cliente_id = clientes.id
+
+        INNER JOIN produtos
+            ON pedidos.produto_id = produtos.id
+    `).all();
+
+    res.json(pedidos);
+
+});
+
+
+// CADASTRAR PEDIDO
+
+app.post("/pedidos", (req, res) => { // Cria uma rota POST para cadastrar pedidos
+    const {
+        cliente_id,
+        produto_id,
+        quantidade,
+        mao_de_obra,
+        desconto,
+        forma_pagamento,
+        data_entrega,
+        data_pagamento
+    } = req.body; // Pega os dados enviados pelo React
+
+    if (!cliente_id || !produto_id || !quantidade || !mao_de_obra || !forma_pagamento) { // Verifica se os campos obrigatórios foram preenchidos
+        return res.status(400).json({
+            erro: "preencha todos os campos obrigatórios."
+        }) // Retorna um erro caso algum campo esteja faltando
+    }
+
+    const comando = db.prepare(`
+        
+         INSERT INTO pedidos (
+            cliente_id,
+            produto_id,
+            quantidade,
+            mao_de_obra,
+            desconto,
+            forma_pagamento,
+            data_entrega,
+            data_pagamento
+        )
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+
+        `); // Prepara o comando SQL para inserir o pedido
+
+    const resultado = comando.run(
+        cliente_id,
+        produto_id,
+        quantidade,
+        mao_de_obra,
+        desconto || 0,
+        forma_pagamento,
+        data_entrega || null,
+        data_pagamento || null
+    ); // Executa o cadastro no SQLite
+
+    res.json({
+        mensagem: "Pedido cadastrado com sucesso!", // Confirma o cadastro
+        id: resultado.lastInsertRowid           // Retorna o ID criado pelo SQLite
+    });
+});
 
 
 
+// ATUALIZAR STATUS DE ENTREGA DO PEDIDO (ENTREGUE)
+
+
+app.patch("/pedidos/:id/entregue", (req, res) => { // Cria uma rota para alterar se o pedido foi entregue
+
+    const { entregue } = req.body; // Pega o novo valor enviado pelo React
+
+    const comando = db.prepare(`
+        UPDATE pedidos
+        SET entregue = ?
+        WHERE id = ?
+    `); // Prepara o comando SQL para atualizar a entrega
+
+    comando.run(
+        entregue ? 1 : 0, // SQLite usa 1 para true e 0 para false
+        req.params.id // Pega o ID do pedido pela URL
+    );
+
+    res.json({
+        mensagem: "Status de entrega atualizado com sucesso!"
+    }); // Confirma a atualização
+});
+
+
+// ATUALIZAR STATUS DE PAGAMENTO DO PEDIDO (PAGO)
+
+
+app.patch("/pedidos/:id/pago", (req, res) => { // Cria uma rota para alterar se o pedido doi pago
+
+    const { pago } = req.body; // Pega o novo valor enviado pelo React
+
+    const comando = db.prepare(`
+            UPDATE pedidos
+            SET pago = ?
+            WHERE id = ?
+        `);  // Prepara o comando SQL para atualizar o pagamento
+
+    comando.run(
+        pago ? 1 : 0, // SQLite usa 1 para true e 0 para false
+        req.params.id // Pega o ID do pedido pela URL
+    );
+
+    res.json({
+        mensagem: "Status de pagamento atualizado com sucesso!"
+    });  // Confirma a atualização
+});
+
+
+// STATUS DO PEDIDO CONCLUIDO OU NAO
+
+app.patch("/pedidos/:id/status", (req, res) => { // Cria uma rota para alterar o status do pedido
+
+    const { status } = req.body; // Pega o novo status enviado pelo React
+
+    const comando = db.prepare(`
+        UPDATE pedidos
+        SET status = ?
+        WHERE id = ?
+    `); // Prepara o comando SQL para atualizar o status
+
+    comando.run(
+        status, // Salva o novo status
+        req.params.id // Pega o ID do pedido pela URL
+    );
+
+    res.json({
+        mensagem: "Status atualizado com sucesso!"
+    }); // Confirma a atualização
+});
 
 
 

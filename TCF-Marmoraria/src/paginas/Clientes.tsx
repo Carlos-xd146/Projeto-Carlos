@@ -13,6 +13,8 @@ export default function Clientes() {
     const [nome, setNome] = useState("");
     const [telefone, setTelefone] = useState("");
 
+    const [mostrarFormulario, setMostrarFormulario] = useState(false);
+
     useEffect(() => {
         carregarClientes();     // Busca os clientes assim que a página é aberta
     }, []);
@@ -68,7 +70,7 @@ export default function Clientes() {
         }
 
         carregarClientes(); // Busca novamente os clientes depois da exclusão
-        
+
     }
 
 
@@ -79,33 +81,48 @@ export default function Clientes() {
             <p>Cadastre e consulte os clientes</p>
 
             <section className="clientes-formulario">
-                <h2>Novo Cliente</h2>
 
-                <form onSubmit={cadastrarClientes}>
+                <div className="titulo-formulario">
+                    <h2>Novo Cliente</h2>
 
-                    <div className="campo-cliente">
-                        <label>Nome</label>
-                        <input
-                            type="text"
-                            value={nome}
-                            onChange={(e) => setNome(e.target.value)}
-                            placeholder="Digite o nome do cliente"
-                        />
-                    </div>
+                    <button
+                        type="button"
+                        className="botao-toggle-formulario"
+                        onClick={() => setMostrarFormulario(!mostrarFormulario)}
+                    >
+                        {mostrarFormulario ? "Fechar" : "Novo cliente"}
+                    </button>
+                </div>
 
-                    <div className="campo-cliente">
-                        <label>Telefone</label>
-                        <input
-                            type="tel"
-                            value={telefone}
-                            onChange={(e) => setTelefone(e.target.value)}
-                            placeholder="Digite o nome do cliente"
-                        />
-                    </div>
+                {mostrarFormulario && (
+                    <form onSubmit={cadastrarClientes}>
 
-                    <button type="submit">Cadastrar cliente</button>
+                        <div className="campo-cliente">
+                            <label>Nome</label>
+                            <input
+                                type="text"
+                                value={nome}
+                                onChange={(e) => setNome(e.target.value)}
+                                placeholder="Digite o nome do cliente"
+                            />
+                        </div>
 
-                </form>
+                        <div className="campo-cliente">
+                            <label>Telefone</label>
+                            <input
+                                type="tel"
+                                value={telefone}
+                                onChange={(e) => setTelefone(e.target.value)}
+                                placeholder="Digite o nome do cliente"
+                            />
+                        </div>
+
+                        <button type="submit">Cadastrar cliente</button>
+
+                    </form>
+                )}
+
+
             </section>
 
             <section className="clientes-lista">
