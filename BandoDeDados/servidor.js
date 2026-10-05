@@ -195,7 +195,7 @@ db.prepare(`
         forma_pagamento TEXT NOT NULL,
         data_entrega TEXT,
         data_pagamento TEXT,
-        status TEXT NOT NULL DEFAULT 'Em produção',
+        status TEXT NOT NULL DEFAULT 'Em andamemto',
         entregue INTEGER NOT NULL DEFAULT 0,
         pago INTEGER NOT NULL DEFAULT 0, 
         FOREIGN KEY (cliente_id) REFERENCES clientes(id),
