@@ -2,27 +2,31 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { salvarCookie, getDataHoje, gerarToken } from "../auth.js";
 
+type Usuario = {
+    usuario: string;
+    senha: string;
+};
 
 export default function Login() {
     const [nome, setNome] = useState("");
     const [senha, setSenha] = useState("");
     const [mensagem, setMensagem] = useState("");
-
     const navigate = useNavigate();
 
     async function entrar(event: React.FormEvent) { // variavel do evento que envia o submit do formulario e tipagem do evento de formulario
-        // alert (`Usuario=${nome}
-        //     senha=${senha}`)
+       
         event.preventDefault(); // react atualiza sem precisar recarregar a pagina
 
-        const bancoDeDados = await (await fetch("/users.json")).json();
+
+        const resposta = await fetch("/users.json");
+        const bancoDeDados: Usuario[] = await resposta.json();
 
         const usuarioEncontrado = bancoDeDados.find((user) => user.usuario===nome && user.senha === senha)
         if (usuarioEncontrado){
             const data = getDataHoje();
             const token = await gerarToken(
                 usuarioEncontrado.usuario,
-                usuarioEncontrado.Senha,
+                usuarioEncontrado.senha,
                 data
             );
             salvarCookie(token);
