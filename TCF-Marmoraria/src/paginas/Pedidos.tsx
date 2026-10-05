@@ -373,6 +373,7 @@ export default function Pedidos() {
                                 <tr>
                                     <th>Cliente</th>
                                     <th>Produto</th>
+                                    <th>Preço</th>
                                     <th>Quantidade</th>
                                     <th>Mão de obra</th>
                                     <th>Desconto</th>
@@ -389,6 +390,10 @@ export default function Pedidos() {
                                     <tr key={pedido.id}>
                                         <td>{clientes.find((cliente) => cliente.id === pedido.cliente_id)?.nome}</td>
                                         <td>{produtos.find((produto) => produto.id === pedido.produto_id)?.nome}</td>
+                                        <td>{Number(pedido.preco_produto).toLocaleString("pt-BR", {
+                                            style: "currency",
+                                            currency: "BRL",
+                                        })}</td>
                                         <td>{pedido.quantidade} m²</td>
                                         <td>
                                             {pedido.maoDeObra.toLocaleString("pt-BR", {
