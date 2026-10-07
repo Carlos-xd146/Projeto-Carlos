@@ -1,8 +1,15 @@
 import { useEffect, useState } from "react"; // useState guarda o total e useEffect busca o dado quando a página abre
 import CardDashboard from "../components/CardDashboard";
 import { Link } from "react-router-dom";
+import { apagarSessaoDoCookie } from "../auth.js";
 
-export default function dashboard() {
+export default function Dashboard({sessao, onLogout}) {
+
+    function handleLogout() {
+        apagarSessaoDoCookie();
+        onLogout();
+    }
+
 
     const [totalClientes, setTotalClientes] = useState(0); // Guarda a quantidade de clientes cadastrados
     const [pedidos, setPedidos] = useState<any[]>([]);
@@ -61,6 +68,8 @@ export default function dashboard() {
                 <div>
                     <h1>Marmoraria</h1>
                     <p>Bem vindo</p>
+                    <p>Token do dia: {sessao.token}</p>
+                    <button onClick={handleLogout}>Sair</button>
                 </div>
 
                 <nav className="dashboard-links">

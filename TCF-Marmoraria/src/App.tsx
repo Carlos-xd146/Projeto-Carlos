@@ -7,14 +7,38 @@ import {
 
 import Login from './paginas/login';
 import Dashboard from './paginas/Dashboard';
-// import Clientes from './paginas/Clientes';
 import Produtos from './paginas/Produtos';
 import Clientes from "./paginas/Clientes";
 import Pedidos from "./paginas/Pedidos";
-// import Pedidos from './paginas/Pedidos';
-// import Layout from './components/layout';
+import { useEffect, useState } from "react";
+import { getSessaoValidaDeHoje } from "./auth"
+
+
 
 function App() {
+
+  const [sessao, setSessao] = useState(undefined);
+
+  useEffect(() => {
+    async function checarSessao() {
+      const sessaoValida = await getSessaoValidaDeHoje();
+      setSessao(sessaoValida);
+    }
+
+    checarSessao();
+  }, []);
+
+  if (sessao === undefined) {
+    return <p>Carregando...</p>;
+  }
+
+  if (!sessao) {
+    return <Login onLoginSucesso={(novaSessao) => setSessao(novaSessao)} />;
+  }
+
+  
+
+
   return (
     <BrowserRouter>
       <Routes>
@@ -27,7 +51,7 @@ function App() {
         />
         <Route
           path="/dashboard"
-          element={<Dashboard />}
+          element={<Dashboard sessao={sessao} onLogout={() => setSessao(null)}/>}
         />
 
         <Route

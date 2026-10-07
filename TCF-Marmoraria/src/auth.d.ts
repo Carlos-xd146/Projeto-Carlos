@@ -11,4 +11,7 @@ export function gerarToken(
     data: string
 ): Promise<string>;
 
-export function salvarCookie(token: string): void;
+
+
+
+
