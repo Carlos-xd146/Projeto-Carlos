@@ -1,28 +1,34 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { salvarCookie, getDataHoje, gerarToken } from "../auth.js";
+import type { Sessao } from "../auth";
+
+
+type LoginProps = {
+    onLoginSucesso: (sessao: Sessao) => void;
+}
 
 type Usuario = {
     usuario: string;
     senha: string;
 };
 
-export default function Login() {
+export default function Login({ onLoginSucesso }: LoginProps) {
     const [nome, setNome] = useState("");
     const [senha, setSenha] = useState("");
     const [mensagem, setMensagem] = useState("");
     const navigate = useNavigate();
 
     async function entrar(event: React.FormEvent) { // variavel do evento que envia o submit do formulario e tipagem do evento de formulario
-       
+
         event.preventDefault(); // react atualiza sem precisar recarregar a pagina
 
 
         const resposta = await fetch("/users.json");
         const bancoDeDados: Usuario[] = await resposta.json();
 
-        const usuarioEncontrado = bancoDeDados.find((user) => user.usuario===nome && user.senha === senha)
-        if (usuarioEncontrado){
+        const usuarioEncontrado = bancoDeDados.find((user) => user.usuario === nome && user.senha === senha)
+        if (usuarioEncontrado) {
             const data = getDataHoje();
             const token = await gerarToken(
                 usuarioEncontrado.usuario,
@@ -30,12 +36,22 @@ export default function Login() {
                 data
             );
             salvarCookie(token);
+
+            const sessao: Sessao = {
+                usuario: usuarioEncontrado.usuario,
+                token,
+                data,
+            };
+
+            onLoginSucesso(sessao);
+
+
             setMensagem("Logado!");
 
             console.log("LOGIN CORRETO");
 
             navigate("/dashboard");
-        }else{
+        } else {
 
             console.log("LOGIN INCORRETO");
             setMensagem("Usuario ou senha incorretos")
@@ -45,7 +61,7 @@ export default function Login() {
         //     alert("Preencha o nome e a senha.");
         //     return;
         // }
-        
+
     }
 
     return (

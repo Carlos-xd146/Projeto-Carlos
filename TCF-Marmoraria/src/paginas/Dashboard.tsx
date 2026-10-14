@@ -1,9 +1,17 @@
 import { useEffect, useState } from "react"; // useState guarda o total e useEffect busca o dado quando a página abre
 import CardDashboard from "../components/CardDashboard";
 import { Link } from "react-router-dom";
-import { apagarSessaoDoCookie } from "../auth.js";
+import type { Sessao } from "../auth";
+import { apagarSessaoDoCookie } from "../auth";
 
-export default function Dashboard({sessao, onLogout}) {
+
+type DashboardProps = {
+    sessao: Sessao;
+    onLogout: () => void;
+}
+
+
+export default function Dashboard({sessao, onLogout}: DashboardProps) {
 
     function handleLogout() {
         apagarSessaoDoCookie();

@@ -1,9 +1,12 @@
 import "./style.css"
 import {
-  BrowserRouter,
+  
   Routes,
   Route,
+  Navigate,
 } from "react-router-dom";
+
+import type { Sessao } from "./auth";
 
 import Login from './paginas/login';
 import Dashboard from './paginas/Dashboard';
@@ -17,7 +20,7 @@ import { getSessaoValidaDeHoje } from "./auth"
 
 function App() {
 
-  const [sessao, setSessao] = useState(undefined);
+  const [sessao, setSessao] = useState<Sessao | null | undefined>(undefined);
 
   useEffect(() => {
     async function checarSessao() {
@@ -32,26 +35,35 @@ function App() {
     return <p>Carregando...</p>;
   }
 
-  if (!sessao) {
+  if (sessao === null) {
     return <Login onLoginSucesso={(novaSessao) => setSessao(novaSessao)} />;
   }
 
-  
+
+  // if (!sessao) {
+  //   return <Login onLoginSucesso={(novaSessao) => setSessao(novaSessao)} />;
+  // }
+
+
 
 
   return (
-    <BrowserRouter>
+    
       <Routes>
-        <Route path="" element={<Login />} />
+        {/* <Route path="" element={<Login />} /> */}
 
-        <Route
-          path="/login" 
-          element={<Login/>}
-        
-        />
+        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+
+        <Route path="/login" element={<Navigate to="/dashboard" replace />} />
+
+        {/* <Route
+          path="/login"
+          element={<Login />}
+
+        /> */}
         <Route
           path="/dashboard"
-          element={<Dashboard sessao={sessao} onLogout={() => setSessao(null)}/>}
+          element={<Dashboard sessao={sessao} onLogout={() => setSessao(null)} />}
         />
 
         <Route
@@ -69,7 +81,7 @@ function App() {
           element={<Pedidos />}
         />
       </Routes>
-    </BrowserRouter>
+    
   )
 }
 
