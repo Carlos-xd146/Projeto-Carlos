@@ -25,6 +25,7 @@ function App() {
   useEffect(() => {
     async function checarSessao() {
       const sessaoValida = await getSessaoValidaDeHoje();
+      console.log(sessaoValida);
       setSessao(sessaoValida);
     }
 
@@ -54,7 +55,7 @@ function App() {
 
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
 
-        <Route path="/login" element={<Navigate to="/dashboard" replace />} />
+        <Route path="/login" element={<Navigate to="/login" replace />} />
 
         {/* <Route
           path="/login"

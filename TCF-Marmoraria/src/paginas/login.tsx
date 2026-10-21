@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { salvarCookie, getDataHoje, gerarToken } from "../auth.js";
+import { salvarCookie, getDataHoje, gerarToken } from "../auth";
 import type { Sessao } from "../auth";
 
 
@@ -35,7 +35,7 @@ export default function Login({ onLoginSucesso }: LoginProps) {
                 usuarioEncontrado.senha,
                 data
             );
-            salvarCookie(token);
+            salvarCookie(usuarioEncontrado.usuario, token);
 
             const sessao: Sessao = {
                 usuario: usuarioEncontrado.usuario,
@@ -43,17 +43,13 @@ export default function Login({ onLoginSucesso }: LoginProps) {
                 data,
             };
 
-            onLoginSucesso(sessao);
-
-
             setMensagem("Logado!");
-
-            console.log("LOGIN CORRETO");
+            onLoginSucesso(sessao);
 
             navigate("/dashboard");
         } else {
 
-            console.log("LOGIN INCORRETO");
+
             setMensagem("Usuario ou senha incorretos")
         }
         // Exibe um aviso se o nome ou a senha estao vazios

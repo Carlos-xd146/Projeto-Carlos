@@ -21,10 +21,18 @@ export async function gerarToken(usuario, senha, data) {
 }
 
 
-export function salvarCookie(token){
+export function salvarCookie(usuario, token){
     
-    const NOME_COOKIE = "auth_session"
-    document.cookie =`${NOME_COOKIE} = ${token}`
+    const meiaNoite = new Date();
+    meiaNoite.setHours(23, 59, 59, 999);
+    const expires = `expires=${meiaNoite.toUTCString()}; path=/; SameSite=Lax`;
+    
+    document.cookie = `${COOKIE_USER}=${encodeURIComponent(usuario)}; ${expires}`;
+    document.cookie = `${COOKIE_TOKEN}=${encodeURIComponent(token)}; ${expires}`;
+
+
+    // const NOME_COOKIE = "auth_session"
+    // document.cookie =`${NOME_COOKIE} = ${token}`
 }
 
 const COOKIE_USER = "auth_user";
@@ -47,27 +55,27 @@ export function apagarSessaoDoCookie() {
 export async function getSessaoValidaDeHoje() {
     const usuario = lerCookie(COOKIE_USER);
     const tokenSalvo = lerCookie(COOKIE_TOKEN);
-
     if (!usuario || !tokenSalvo) return null;
-
+    
     try {
         const resposta = await fetch("/users.json");
         const usuarios = await resposta.json();
-
+        
         const usuarioEncontrado = usuarios.find((u) => u.usuario === usuario);
         if (!usuarioEncontrado) {
             apagarSessaoDoCookie();
             return null;
         }
-
+        
         const hoje = getDataHoje();
-        const tokenCalculado = await gerarToken(usuarioEncontrado.usuario, usuarioEncontrado.privateKey, hoje);
-
+        const tokenCalculado = await gerarToken(usuarioEncontrado.usuario, usuarioEncontrado.senha, hoje);
+        console.log(tokenCalculado, usuario, tokenSalvo, senha)
+        
         if (tokenSalvo !== tokenCalculado) {
             apagarSessaoDoCookie();
             return null;
         }
-
+        
         return { usuario: usuarioEncontrado.usuario, token:tokenSalvo, data: hoje };
     } catch {
         return null;
